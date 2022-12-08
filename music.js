@@ -9,6 +9,9 @@
  const prevBtn = document.getElementById('prev');
  const playBtn = document.getElementById('play');
  const nextBtn = document.getElementById('next');
+ const volumeIcon = document.getElementById('volume-icon');
+const volumeRange = document.querySelector('.volume-range');
+const volumeBar = document.querySelector('.volume-bar');
 
 
  //music
@@ -16,8 +19,8 @@
     name: 'Don Moen-1',
     displayName: 'Amazing Love',
     artist: `Don Moen`
- },
- {
+   },
+   {
     name: 'Don Moen-2',
     displayName: 'Be Magnified',
     artist: `Don Moen`
@@ -49,8 +52,6 @@
     displayName: 'Blessed be',
     artist: `Don Moen`
     }
-    
-
  ];
 
  //check iif is playing
@@ -110,6 +111,51 @@ function prevSong() {
   loadSong(songs[songIndex]);
 
 
+// Volume Controls --------------------------- //
+
+let lastVolume = 1;
+
+// Mute
+function toggleMute() {
+  volumeIcon.className = '';
+  if (music.volume) {
+    lastVolume = music.volume;
+    music.volume = 0;
+    volumeIcon.classList.add('fas', 'fa-volume-mute');
+    volumeIcon.setAttribute('title', 'Unmute');
+    volumeBar.style.width = 0;
+  } else {
+    music.volume = lastVolume;
+    volumeIcon.classList.add('fas', 'fa-volume-up');
+    volumeIcon.setAttribute('title', 'Mute');
+    volumeBar.style.width = `${lastVolume * 100}%`;
+  }
+}
+
+
+// Volume Bar
+function changeVolume(e) {
+  let volume = e.offsetX / volumeRange.offsetWidth;
+  // Rounding volume up or down
+  if (volume < 0.1) {
+    volume = 0;
+  }
+  if (volume > 0.9) {
+    volume = 1;
+  }
+  volumeBar.style.width = `${volume * 100}%`;
+  music.volume = volume;
+  // Change icon depending on volume
+  volumeIcon.className = '';
+  if (volume > 0.7) {
+    volumeIcon.classList.add('fas', 'fa-volume-up');
+  } else if (volume < 0.7 && volume > 0) {
+    volumeIcon.classList.add('fas', 'fa-volume-down');
+  } else if (volume === 0) {
+    volumeIcon.classList.add('fas', 'fa-volume-off');
+  }
+  lastVolume = volume;
+}
 // update progress bar and time
 function updateProgressBar(e){
     if(isPlaying){
@@ -152,3 +198,5 @@ function setProgressBar(e) {
   music.addEventListener('ended', nextSong);
   music.addEventListener('timeupdate', updateProgressBar);
   progressContainer.addEventListener('click', setProgressBar);
+  volumeRange.addEventListener('click', changeVolume);
+  volumeIcon.addEventListener('click', toggleMute);
