@@ -2,7 +2,10 @@
 
 
 
-
+:root {
+    --primary-color: dodgerblue;
+    --font-color: white;
+  }
 html{
     box-sizing: border-box;
 }
@@ -58,7 +61,39 @@ h3{
     border-radius: 20px; 
     box-shadow: 0 5px 30px 5px rgba(0, 0, 0,0.5);
  }
+ .volume{
+    margin-top: -30px;
+    margin-left: -110px;
+width: 10vw;
+ }
 
+ .volume-icon {
+    cursor: pointer;
+  }
+  
+  .volume-range {
+    height: 8px;
+    width: 50px;
+    background: rgba(70, 70, 70, 0.5);
+    border-radius: 10px;
+    position: relative;
+    top: -21px;
+    left: 50px;
+    cursor: pointer;
+  }
+  
+  .volume-bar {
+    background: var(--font-color);
+    width: 30%;
+    height: 100%;
+    border-radius: 1px;
+    transition: width 0.2s ease-in;
+  }
+  
+  .volume-bar:hover {
+    background: var(--primary-color);
+  }
+  
  @media screen and (max-width: 300px){
    .player-container{
     width: 95vw;
@@ -81,6 +116,7 @@ h3{
     height: 100%;
     /* change this to show progress */
     width: 0%;
+    transition: width 0.2s ease-in;
  }
 
  .duration-wrapper{
@@ -94,7 +130,7 @@ h3{
  .player-controls{
     position: relative;
     top: -15px;
-    left: 120px;
+    left: 150px;
     width: 200px;
 
  }
